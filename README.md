@@ -22,7 +22,7 @@ Crowdflower.API.setApiKey('your-api-key');
 ## Setting/getting API key
 ```javascript
 Crowdflower.API.setApiKey('your-api-key'); // set your API key
-Crowdflower.API.getApiKey(); // get your API key
+var key = Crowdflower.API.getApiKey(); // get your API key
 ```
 
 ## Creating a job
@@ -84,6 +84,12 @@ Crowdflower.API.pingUnits(jobId);
 Crowdflower.API.cancelJob(jobId);
 
 Crowdflower.API.getResults(jobId, page);
+```
+
+# Testing
+To run unit tests, simple type the following into your terminal (in the module root directory):
+```bash
+npm test
 ```
 
 
