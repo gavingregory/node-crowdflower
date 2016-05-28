@@ -2,54 +2,28 @@
 var requestify = require('requestify')
   , qs = require('querystring')
   , Job = require('./Job')
-  , RequestOptions = require('./RequestOptions');
-
-/* http verbs */
-const METHOD_POST = 'POST';
-const METHOD_GET = 'GET';
-const METHOD_PUT = 'PUT';
-const METHOD_DELETE = 'DELETE';
-
-/* API key */
-var key = null;
+  , RequestOptions = require('./RequestOptions')
+  , global = require('./global');
 
 module.exports = function (k) {
   'use strict';
 
-  /**
-   * Sets the Crowdflower API key to the one provided.
-   * @param {String} k The API key.
-   */
-  var setApiKey = function (k) {
-    if (k) key = k;
-  }
-
-  /**
-   * Gets the currently configured Crowdflower API key.
-   * @return {String} The API key.
-   */
-  var getApiKey = function () {
-    return key;
-  }
-
   // set key if key is issued as a parameter
-  setApiKey(k);
+  global.setApiKey(k);
 
   /**
-   * Get all jobs current associated with the api key provided.
-   * @param {String} key
+   * Get all jobs.
    * @return {Object}
    */
-  var getAllJobs = function (key) {
+  var getAllJobs = function () {
     return fetch(new RequestOptions('jobs.json'));
   };
 
   /**
-   * Get the account info associated with the provided key.
+   * Get the account info.
    * This also provides balance info.
-   * @param {String} key
    */
-  var getAccountInfo = function (key) {
+  var getAccountInfo = function () {
     return fetch(new RequestOptions('account.json'));
   };
 
@@ -183,7 +157,6 @@ module.exports = function (k) {
    * @return {Object}
    */
   var getResults = function (jobId, page) {
-    //https://api.crowdflower.com/v1/jobs/{job_id}/judgments.json?key={api_key}&page={1}
     var r = new RequestOptions('jobs/' + jobId + '/judgments.json');
     r.options.params.page = page;
     return fetch(r);
@@ -203,8 +176,8 @@ module.exports = function (k) {
    * Module API
    */
   var api = {
-    setApiKey: setApiKey,
-    getApiKey: getApiKey,
+    setApiKey: global.setApiKey,
+    getApiKey: global.getApiKey,
     getAllJobs: getAllJobs,
     getAccountInfo: getAccountInfo,
     createJob: createJob,
